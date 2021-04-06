@@ -171,4 +171,72 @@
   + 8.为了能使首页中的各模块数据好区分开来，所以可以用多个变量分别来保存
   
 ### 4.首页轮播图的展示
-  + 
+  + 1.因为轮播图算是一个公共组件，所以在components下common目录下创建swiper文件夹
+  + 2.创建一个Swiper.vue组件：该组件表示轮播图最外层的容器；
+      创建一个SwiperItem.vue组件：该组件表示轮播图中的每个元素，这里指图片
+  + 3.在Home组件中导入Swiper，SwiperItem组件并在components中注册组件
+    ```
+    // import Swiper from "components/common/swiper/Swiper";
+    // import SwiperItem from "components/common/swiper/SwiperItem";
+    import { Swiper, SwiperItem } from "components/common/swiper"; // 这里导入的其实是index.js文件中export出来的模块
+    ```
+  + 4.由于需要动态更新元素，所以采用插槽的方式传值
+    - 在Swiper组件中有两个插槽，第一个插槽是用来传入图片的插槽，这里我们会在Home组件中调用Swiper时给它传入SwiperItem组件，在SwiperItem组件中会传入一个超链接a，确保在点击图片后能够跳转到对应界面，然后在a标签中添加一个img标签，用来显示图片;另一个插槽“indicator”是用来动态更新图片中间下方的白色小圆点，它会根据有几张图片加载进来来动态创建小圆点并将小圆点与对应的图片进行绑定
+    - 由于需要做到动态更新，不能写死，所以采用v-for来遍历之前请求到的轮播图数据,动态创建<swiper-item>组件
+    - ```
+      <swiper>
+        <swiper-item v-for="item in banners">
+          <a :href="item.link">
+            <img :src="item.image" alt="" />
+          </a>
+        </swiper-item>
+      </swiper>
+      ```
+  + 5.为了避免Home组件中的代码逻辑变得更复杂，便于后期维护与阅读，所以可以将swiper组件在进行一次封装，封装成HomeSwiper组件。由于封装的HomeSwiper组件只是为了在home中使用，所以可以直接在views/home目录下在创建一个文件夹childComponents用来存放只属于home页面中的组件，没必要到最外层的components目录下创建
+  + 6.在HomeSwiper组件中调用Swiper组件和SwiperItem组件
+    ```
+    <template>
+      <swiper>
+        <swiper-item v-for="item in banners">
+          <a :href="item.link">
+            <img :src="item.image" alt="" />
+          </a>
+        </swiper-item>
+      </swiper>
+    </template>
+
+    <script>
+    // import Swiper from "components/common/swiper/Swiper";
+    // import SwiperItem from "components/common/swiper/SwiperItem";
+    import { Swiper, SwiperItem } from "components/common/swiper";
+
+    export default {
+      name: "HomeSwiper",
+      props: {  // 由于本身是没有banners参数的，所以需要靠父组件给它传递
+        banners:  {
+          type: Array,
+          default() {
+            return []
+          }
+        }
+      },
+      components: {
+        Swiper,
+        SwiperItem,
+      }
+    };
+    </script>
+
+    <style>
+    </style>
+    ```
+  + 7.在Home组件中调用HomeSwiper组件，并将请求到的轮播图数据传递给子组件HomeSwiper
+    ```
+    <template>
+      <div id="home">
+        <nav-bar class="home-nav"><div slot="middle">购物街</div></nav-bar>
+        <home-swiper :banners="banners"></home-swiper>
+      </div>
+    </template>
+    ```
+    
