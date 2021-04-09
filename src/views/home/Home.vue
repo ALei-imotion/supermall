@@ -3,6 +3,21 @@
     <nav-bar class="home-nav"><div slot="middle">购物街</div></nav-bar>
     <home-swiper :banners="banners"></home-swiper>
     <home-recommend-view :recommends="recommends"></home-recommend-view>
+    <home-feature-view></home-feature-view>
+
+    <ul>
+      <li>wasd</li>
+      <li>wasd</li>
+      <li>wasd</li>
+      <li>wasd</li>
+      <li>wasd</li>
+      <li>wasd</li>
+      <li>wasd</li>
+      <li>wasd</li>
+      <li>wasd</li>
+      <li>wasd</li>
+      <li>wasd</li>
+    </ul>
   </div>
 </template>
 
@@ -10,6 +25,7 @@
 import NavBar from "components/common/navbar/NavBar";
 import HomeSwiper from "./childComponents/HomeSwiper";
 import HomeRecommendView from "./childComponents/HomeRecommendView";
+import HomeFeatureView from "./childComponents/HomeFeatureView";
 
 import { getHomeMultidata } from "network/home";
 
@@ -19,6 +35,7 @@ export default {
     NavBar,
     HomeSwiper,
     HomeRecommendView,
+    HomeFeatureView,
   },
   data() {
     return {
@@ -37,9 +54,20 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
+#home {
+  padding-top: 44px;
+}
+
 .home-nav {
   background-color: var(--color-tint);
   color: #fff;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 9;
 }
 </style>
