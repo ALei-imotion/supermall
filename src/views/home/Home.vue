@@ -8,9 +8,10 @@
     <tab-control
       class="home-tab-control"
       :titles="['流行', '新款', '精选']"
+      @tabItemClick="tabClick"
     ></tab-control>
 
-    <goods-list :goods="goods['pop'].list"></goods-list>
+    <goods-list :goods="showGoods"></goods-list>
   </div>
 </template>
 
@@ -47,7 +48,13 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] },
       },
+      currentType: "pop",
     };
+  },
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
+    }
   },
   created() {
     // 1.请求多个数据
@@ -58,6 +65,28 @@ export default {
     this.get_home_goods("sell");
   },
   methods: {
+    /**
+     * 事件监听的方法
+     */
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currentType = "pop";
+          break;
+        case 1:
+          this.currentType = "new";
+          break;
+        case 2:
+          this.currentType = "sell";
+          break;
+        default:
+          break;
+      }
+    },
+
+    /**
+     * 网络请求相关的方法
+     */
     get_home_multidata() {
       getHomeMultidata().then((res) => {
         // console.log(res);
