@@ -5,8 +5,10 @@
     <scroll
       class="scroll"
       ref="bscroll"
-      :probeType="3"
+      :probe-type="3"
+      :pull-up-load="true"
       @scroll="contentScroll"
+      @pullingUp="loadMore"
     >
       <home-swiper :banners="banners"></home-swiper>
       <home-recommend-view :recommends="recommends"></home-recommend-view>
@@ -107,9 +109,12 @@ export default {
 
     contentScroll(position) {
       // console.log(position);
-      this.isShowBackTop = (-position.y) > 1000;
+      this.isShowBackTop = -position.y > 1000;
     },
 
+    loadMore() {
+      this._getHomeGoods(this.currentType)
+    },
     /**
      * 网络请求相关的方法
      */
@@ -134,6 +139,8 @@ export default {
         // ...可以将数组中的数据解析遍历，并一个一个的取出来
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+
+        this.$refs.bscroll.finishPullUp();
       });
     },
   },
