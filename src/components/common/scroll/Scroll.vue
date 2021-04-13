@@ -14,7 +14,14 @@ export default {
   data() {
     return {
       scroll: null,
+      message: "imotion",
     };
+  },
+  props: {
+    probeType: {
+      type: Number,
+      default: 0,
+    },
   },
   mounted() {
     /**
@@ -27,7 +34,22 @@ export default {
      * ref如果是绑定在组件中，那么通过 this.$refs.refname 获取到的是一个组件对象
      * ref如果是绑定在普通的元素中，那么通过 this.$refs.refname 获取到的是一个元素对象
      */
-    this.scroll = new BScroll(this.$refs.wrapper, {});
+    // 1.创建BScroll对象
+    this.scroll = new BScroll(this.$refs.wrapper, {
+      click: true,
+      probeType: this.probeType,
+    });
+
+    // 2.监听滚动的位置
+    this.scroll.on("scroll", (position) => {
+      // console.log(position);
+      this.$emit("scroll", position);
+    });
+  },
+  methods: {
+    scrollTo(x, y, time = 300) {
+      this.scroll.scrollTo(x, y, time);
+    },
   },
 };
 </script>
