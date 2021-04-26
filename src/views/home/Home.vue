@@ -81,6 +81,18 @@ export default {
     this._getHomeGoods("new");
     this._getHomeGoods("sell");
   },
+  mounted() {
+    // 3.监听item中图片加载完成
+    // this.$bus.$on("itemImageLoad", () => {
+    //   this.$refs.bscroll.refresh();
+    // });
+
+    // 3.监听item中图片加载完成
+    const refresh = this.debounce(this.$refs.bscroll.refresh, 100);
+    this.$bus.$on("itemImageLoad", () => {
+      refresh();
+    });
+  },
   methods: {
     /**
      * 事件监听的方法
@@ -100,21 +112,28 @@ export default {
           break;
       }
     },
-
     backClick() {
       // 可以通过this.$refs.bscroll直接访问到scroll组件中的属性以及方法
       // console.log(this.$refs.bscroll.message);
       this.$refs.bscroll.scrollTo(0, 0, 500);
     },
-
     contentScroll(position) {
       // console.log(position);
       this.isShowBackTop = -position.y > 1000;
     },
-
     loadMore() {
-      this._getHomeGoods(this.currentType)
+      this._getHomeGoods(this.currentType);
     },
+    debounce(func, delay) {
+      let timer = null;
+      return function (...args) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+          func.apply(this, args);
+        }, delay);
+      };
+    },
+
     /**
      * 网络请求相关的方法
      */
