@@ -79,6 +79,7 @@ export default {
       isShowBackTop: false,
       tabOffsetTop: 0,
       isTabControlFixed: false,
+      saveY: 0,
     };
   },
   computed: {
@@ -94,13 +95,23 @@ export default {
     this._getHomeGoods("new");
     this._getHomeGoods("sell");
   },
+  destroyed() {
+    console.log("home destroyed");
+  },
+  activated() {
+    this.$refs.bscroll.scrollTo(0, this.saveY, 0);
+    this.$refs.bscroll.refresh();
+  },
+  deactivated() {
+    this.saveY = this.$refs.bscroll.getScrollY();
+  },
   mounted() {
     // 1.监听item中图片加载完成
     // this.$bus.$on("itemImageLoad", () => {
     //   this.$refs.bscroll.refresh();
     // });
 
-    // 1.监听item中图片加载完成
+    // 1.监听item中图片加载完成（添加防抖函数）
     const refresh = debounce(this.$refs.bscroll.refresh, 100);
     this.$bus.$on("itemImageLoad", () => {
       refresh();
