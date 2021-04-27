@@ -99,10 +99,12 @@ export default {
     console.log("home destroyed");
   },
   activated() {
+    console.log(this.saveY);
     this.$refs.bscroll.scrollTo(0, this.saveY, 0);
     this.$refs.bscroll.refresh();
   },
   deactivated() {
+    console.log(this.saveY);
     this.saveY = this.$refs.bscroll.getScrollY();
   },
   mounted() {
