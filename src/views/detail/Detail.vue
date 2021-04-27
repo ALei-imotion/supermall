@@ -1,8 +1,10 @@
 <template>
   <div id="detail">
     <detail-nav-bar></detail-nav-bar>
+
     <detail-swiper :top-images="topImages"></detail-swiper>
     <detail-base-info :goods="goods"></detail-base-info>
+    <detail-shop-info :shop="shop"></detail-shop-info>
   </div>
 </template>
 
@@ -10,8 +12,9 @@
 import DetailNavBar from "./childComponents/DetailNavBar";
 import DetailSwiper from "./childComponents/DetailSwiper";
 import DetailBaseInfo from "./childComponents/DetailBaseInfo";
+import DetailShopInfo from "./childComponents/DetailShopInfo";
 
-import { getDetail, Goods } from "network/detail";
+import { getDetail, Goods, Shop } from "network/detail";
 
 export default {
   name: "Detail",
@@ -20,12 +23,14 @@ export default {
       iid: null,
       topImages: [],
       goods: {},
+      shop: {},
     };
   },
   components: {
     DetailNavBar,
     DetailSwiper,
     DetailBaseInfo,
+    DetailShopInfo,
   },
   created() {
     // 1.保存传入的商品iid
@@ -39,7 +44,14 @@ export default {
       this.topImages = data.itemInfo.topImages;
 
       // 2.2 获取商品信息
-      this.goods = new Goods(data.itemInfo, data.columns, data.shopInfo.services)
+      this.goods = new Goods(
+        data.itemInfo,
+        data.columns,
+        data.shopInfo.services
+      );
+
+      // 2.3 获取店铺信息
+      this.shop = new Shop(data.shopInfo);
     });
   },
 };
