@@ -12,3 +12,18 @@ new Vue({
   router,
   // store,
 }).$mount('#app')
+
+
+// ES6 继承
+// class Animal {
+//   run() {
+//   }
+// }
+
+// class Person extends Animal {
+//   run()
+// }
+
+// class AAA extends Animal {
+//   run()
+// }

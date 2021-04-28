@@ -52,7 +52,7 @@ import HomeFeatureView from "./childComponents/HomeFeatureView";
 
 // 方法以及额外的内容
 import { getHomeMultidata, getHomeGoods } from "network/home";
-import { debounce } from "common/utils";
+import { itemListenerMixin } from "common/mixin";
 
 export default {
   name: "Home",
@@ -82,6 +82,7 @@ export default {
       saveY: 0,
     };
   },
+  mixins: [itemListenerMixin],
   computed: {
     showGoods() {
       return this.goods[this.currentType].list;
@@ -95,27 +96,15 @@ export default {
     this._getHomeGoods("new");
     this._getHomeGoods("sell");
   },
-  destroyed() {
-    console.log("home destroyed");
-  },
   activated() {
     this.$refs.bscroll.scrollTo(0, this.saveY, 0);
     this.$refs.bscroll.refresh();
   },
   deactivated() {
+    // 1.保存滚动的Y值
     this.saveY = this.$refs.bscroll.getScrollY();
-  },
-  mounted() {
-    // 1.监听item中图片加载完成
-    // this.$bus.$on("itemImageLoad", () => {
-    //   this.$refs.bscroll.refresh();
-    // });
-
-    // 1.监听item中图片加载完成（添加防抖函数）
-    const refresh = debounce(this.$refs.bscroll.refresh, 100);
-    this.$bus.$on("itemImageLoad", () => {
-      refresh();
-    });
+    // 2.取消全局事件的监听
+    this.$bus.$off("itemImageLoad", this.itemImageListener);
   },
   methods: {
     /**

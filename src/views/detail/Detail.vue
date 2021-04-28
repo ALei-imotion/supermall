@@ -27,6 +27,7 @@ import DetailCommentInfo from "./childComponents/DetailCommentInfo";
 
 import Scroll from "components/common/scroll/Scroll";
 import GoodsList from "components/content/goods/GoodsList";
+import { itemListenerMixin } from "common/mixin";
 
 import {
   getDetail,
@@ -50,6 +51,7 @@ export default {
       recommends: [],
     };
   },
+  mixins: [itemListenerMixin],
   components: {
     DetailNavBar,
     DetailSwiper,
@@ -103,6 +105,10 @@ export default {
       // console.log(res);
       this.recommends = res.data.list;
     });
+  },
+  destroyed() {
+    // 2.取消全局事件的监听
+    this.$bus.$off("itemImageLoad", this.itemImageListener);
   },
   methods: {
     detailImageLoad() {
