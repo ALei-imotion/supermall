@@ -44,7 +44,7 @@ export default {
       //将时间戳转换成date对象
       const date = new Date(value * 1000);
       //将date进行格式化
-      return formatDate(date, "yyyy-MM-dd");
+      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
     },
   },
 };
