@@ -26,7 +26,15 @@ export default {
     },
 
     itemClick() {
-      this.$router.push("/detail/" + this.goodsItem.iid);
+      // 动态路由传递
+      // this.$router.push("/detail/" + this.goodsItem.iid);
+      // 用query传递
+      this.$router.push({
+        path: "/detail",
+        query: {
+          iid: this.goodsItem.iid,
+        },
+      });
     },
   },
 };

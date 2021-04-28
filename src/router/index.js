@@ -35,7 +35,8 @@ const routes = [
     component: Profile
   },
   {
-    path: '/detail/:iid',
+    // path: '/detail/:iid',  // 动态路由方式
+    path: '/detail',
     component: Detail
   }
 ]
