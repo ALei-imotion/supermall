@@ -1,15 +1,16 @@
 <template>
   <div id="detail">
-    <detail-nav-bar />
+    <detail-nav-bar></detail-nav-bar>
     <scroll class="scroll" ref="bscroll">
-      <detail-swiper :top-images="topImages" />
-      <detail-base-info :goods="goods" />
-      <detail-shop-info :shop="shop" />
+      <detail-swiper :top-images="topImages"></detail-swiper>
+      <detail-base-info :goods="goods"></detail-base-info>
+      <detail-shop-info :shop="shop"></detail-shop-info>
       <detail-goods-info
         :detail-info="detailInfo"
         @detailImageLoad="detailImageLoad"
-      />
-      <detail-param-info :param-info="paramInfo" />
+      ></detail-goods-info>
+      <detail-param-info :param-info="paramInfo"></detail-param-info>
+      <detail-comment-info :comment-info="commentInfo"></detail-comment-info>
     </scroll>
   </div>
 </template>
@@ -21,6 +22,7 @@ import DetailBaseInfo from "./childComponents/DetailBaseInfo";
 import DetailShopInfo from "./childComponents/DetailShopInfo";
 import DetailGoodsInfo from "./childComponents/DetailGoodsInfo";
 import DetailParamInfo from "./childComponents/DetailParamInfo";
+import DetailCommentInfo from "./childComponents/DetailCommentInfo";
 
 import Scroll from "components/common/scroll/Scroll";
 
@@ -36,6 +38,7 @@ export default {
       shop: {},
       detailInfo: {},
       paramInfo: {},
+      commentInfo: {},
     };
   },
   components: {
@@ -45,12 +48,13 @@ export default {
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamInfo,
+    DetailCommentInfo,
     Scroll,
   },
   created() {
     // 1.保存传入的商品iid
     // this.iid = this.$route.params.iid;  // 动态路由方式
-    this.iid = this.$route.query.iid;   // query传递方式
+    this.iid = this.$route.query.iid; // query传递方式
 
     // 2.根据对应的iid请求对应的详情数据
     getDetail(this.iid).then((res) => {
@@ -73,7 +77,15 @@ export default {
       this.detailInfo = data.detailInfo;
 
       // 2.5 获取参数信息
-      this.paramInfo = new GoodsParam(data.itemParams.info, data.itemParams.rule);
+      this.paramInfo = new GoodsParam(
+        data.itemParams.info,
+        data.itemParams.rule
+      );
+
+      // 2.6 获取评论信息
+      if (data.rate.cRate !== 0) {
+        this.commentInfo = data.rate.list[0];
+      }
     });
   },
   methods: {
