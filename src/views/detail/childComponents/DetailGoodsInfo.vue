@@ -25,26 +25,14 @@ export default {
   props: {
     detailInfo: {
       type: Object,
+      default() {
+        return {};
+      },
     },
-  },
-  data() {
-    return {
-      counter: 0,
-      imagesLength: 0,
-    };
   },
   methods: {
     imageLoad() {
-      this.counter += 1;
-      if (this.counter === this.imagesLength) {
-        this.$emit("detailImageLoad");
-      }
-    },
-  },
-  watch: {  // 监听某个属性的变化
-    detailInfo() {
-      // 获取图片的个数
-      this.imagesLength = this.detailInfo.detailImage[0].list.length;
+      this.$emit("detailImageLoad");
     },
   },
 };

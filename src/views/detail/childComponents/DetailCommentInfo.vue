@@ -16,7 +16,7 @@
         </p>
       </div>
     </div>
-    <div class="comment_img" v-if="commentInfo.images.length !== 0">
+    <div class="comment_img" v-if="commentInfo.images !== 'undefined'">
       <img
         v-for="(item, index) in commentInfo.images"
         :src="item"

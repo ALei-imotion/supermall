@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     detailImageLoad() {
-      this.$refs.bscroll.refresh();
+      this.newRefresh();
     },
   },
 };
