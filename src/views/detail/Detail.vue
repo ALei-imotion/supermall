@@ -28,6 +28,7 @@
       <goods-list :goods="recommends" ref="recommend"></goods-list>
     </scroll>
     <detail-bottom-bar></detail-bottom-bar>
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 
@@ -43,7 +44,7 @@ import DetailBottomBar from "./childComponents/DetailBottomBar";
 
 import Scroll from "components/common/scroll/Scroll";
 import GoodsList from "components/content/goods/GoodsList";
-import { itemListenerMixin } from "common/mixin";
+import { itemListenerMixin, backTopMixin } from "common/mixin";
 import { debounce } from "common/utils";
 
 import {
@@ -71,7 +72,7 @@ export default {
       currentIndex: null,
     };
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   components: {
     DetailNavBar,
     DetailSwiper,
@@ -204,6 +205,9 @@ export default {
           this.$refs.detailNavBar.currentIndex = this.currentIndex;
         }
       }
+
+      // 3.是否显示回到顶部按钮
+      this.listenIsShowBackTop(position);
     },
   },
 };

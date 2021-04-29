@@ -40,7 +40,7 @@ export default {
 
 <style scoped>
 .bottom-bar {
-  height: 58px;
+  height: 49px;
   background-color: #fff;
   position: fixed;
   left: 0;
@@ -65,24 +65,24 @@ export default {
 
 .bar-left .icon {
   display: block;
-  width: 22px;
-  height: 22px;
-  margin: 10px auto 3px;
+  width: 20px;
+  height: 20px;
+  margin: 8px auto 3px;
   background: url("~assets/img/detail/detail_bottom.png") 0 0/100%;
 }
 
 .bar-left .service {
-  background-position: 0 -54px;
+  background-position: 0 -48px;
 }
 
 .bar-left .shop {
-  background-position: 0 -98px;
+  background-position: 0 -88px;
 }
 
 .bar-right {
   font-size: 15px;
   color: #fff;
-  line-height: 58px;
+  line-height: 49px;
 }
 
 .bar-right .cart {

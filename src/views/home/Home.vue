@@ -43,7 +43,6 @@ import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
-import BackTop from "components/content/backTop/BackTop";
 
 // 首页组件
 import HomeSwiper from "./childComponents/HomeSwiper";
@@ -52,7 +51,7 @@ import HomeFeatureView from "./childComponents/HomeFeatureView";
 
 // 方法以及额外的内容
 import { getHomeMultidata, getHomeGoods } from "network/home";
-import { itemListenerMixin } from "common/mixin";
+import { itemListenerMixin, backTopMixin } from "common/mixin";
 
 export default {
   name: "Home",
@@ -64,7 +63,6 @@ export default {
     HomeFeatureView,
     GoodsList,
     Scroll,
-    BackTop,
   },
   data() {
     return {
@@ -76,13 +74,12 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      isShowBackTop: false,
       tabOffsetTop: 0,
       isTabControlFixed: false,
       saveY: 0,
     };
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   computed: {
     showGoods() {
       return this.goods[this.currentType].list;
@@ -127,15 +124,10 @@ export default {
       this.$refs.homeTabControl1.currentIndex = index;
       this.$refs.homeTabControl2.currentIndex = index;
     },
-    backClick() {
-      // 可以通过this.$refs.bscroll直接访问到scroll组件中的属性以及方法
-      // console.log(this.$refs.bscroll.message);
-      this.$refs.bscroll.scrollTo(0, 0, 500);
-    },
     contentScroll(position) {
       // console.log(position);
       // 1.判断BaclTop是否显示
-      this.isShowBackTop = -position.y > 1000;
+      this.listenIsShowBackTop(position);
 
       // 2.决定tabControl是否吸顶（position：fixed）
       this.isTabControlFixed = -position.y > this.tabOffsetTop;
