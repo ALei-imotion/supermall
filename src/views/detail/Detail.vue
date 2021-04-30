@@ -27,7 +27,7 @@
       ></detail-comment-info>
       <goods-list :goods="recommends" ref="recommend"></goods-list>
     </scroll>
-    <detail-bottom-bar></detail-bottom-bar>
+    <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
@@ -208,6 +208,23 @@ export default {
 
       // 3.是否显示回到顶部按钮
       this.listenIsShowBackTop(position);
+    },
+    // 将商品添加到购物车
+    addToCart() {
+      // 1.获取购物车需要展示的信息
+      const product = {};
+      product.image = this.topImages;
+      product.title = this.goods.title;
+      product.desc = this.detailInfo.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
+ 
+      // 2.将商品添加到购物车
+      // 不要直接操作state中的数据，这样会导致操作的记录不会被Vuex状态管理器记录在内
+      // this.$store.state.cartList.push(product);
+      
+      // 这里选择通过mutations属性来间接操作修改state中的数据
+      this.$store.commit("addCart", product);
     },
   },
 };
