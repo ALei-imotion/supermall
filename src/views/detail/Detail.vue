@@ -218,13 +218,16 @@ export default {
       product.desc = this.detailInfo.desc;
       product.price = this.goods.realPrice;
       product.iid = this.iid;
- 
+
       // 2.将商品添加到购物车
       // 不要直接操作state中的数据，这样会导致操作的记录不会被Vuex状态管理器记录在内
       // this.$store.state.cartList.push(product);
-      
+
       // 这里选择通过mutations属性来间接操作修改state中的数据
-      this.$store.commit("addCart", product);
+      // this.$store.commit("addCart", product);
+
+      // 通过操作actions来间接操作mutations，从而修改state中的数据
+      this.$store.dispatch("addCart", product);
     },
   },
 };
