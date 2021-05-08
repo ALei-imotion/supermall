@@ -2,8 +2,8 @@
   <div class="shop-item">
     <div class="item-selector">
       <CheckButton
-        @checkBtnClick="checkBtnClick"
-        :value="itemInfo.checked"
+        @click.native="checkBtnClick"
+        :is-checked="itemInfo.checked"
       ></CheckButton>
     </div>
     <div class="item-img">
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     checkBtnClick() {
-      
+      this.itemInfo.checked = !this.itemInfo.checked;
     }
   }
 };
