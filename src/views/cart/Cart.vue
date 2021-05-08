@@ -9,12 +9,14 @@
     <cart-list></cart-list>
 
     <!-- 底部汇总 -->
+    <cart-bottom-bar></cart-bottom-bar>
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
 import CartList from "./childComponents/CartList";
+import CartBottomBar from "./childComponents/CartBottomBar";
 
 import { mapGetters } from "vuex"; // mapGetters 辅助函数仅仅是将store中的getter映射到局部计算属性
 
@@ -23,6 +25,7 @@ export default {
   components: {
     NavBar,
     CartList,
+    CartBottomBar,
   },
   computed: {
     // 第一种语法，指定需要将哪些getters转换成计算属性（数组方式，表示是一一对应关系，名字是不变的）

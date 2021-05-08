@@ -1,10 +1,10 @@
 <template>
   <div class="shop-item">
     <div class="item-selector">
-      <CheckButton
+      <check-button
         @click.native="checkBtnClick"
         :is-checked="itemInfo.checked"
-      ></CheckButton>
+      ></check-button>
     </div>
     <div class="item-img">
       <img :src="itemInfo.image[0]" alt="商品图片" />
