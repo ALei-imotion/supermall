@@ -29,6 +29,7 @@
     </scroll>
     <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
+    <toast :message="toastMessage" :show="toastShow"></toast>
   </div>
 </template>
 
@@ -44,6 +45,8 @@ import DetailBottomBar from "./childComponents/DetailBottomBar";
 
 import Scroll from "components/common/scroll/Scroll";
 import GoodsList from "components/content/goods/GoodsList";
+import Toast from "components/common/toast/Toast";
+
 import { itemListenerMixin, backTopMixin } from "common/mixin";
 import { debounce } from "common/utils";
 import { mapActions } from "vuex";
@@ -71,6 +74,8 @@ export default {
       themeTopY: [],
       getThemeTopY: null,
       currentIndex: null,
+      toastMessage: "",
+      toastShow: false,
     };
   },
   mixins: [itemListenerMixin, backTopMixin],
@@ -85,6 +90,7 @@ export default {
     DetailBottomBar,
     Scroll,
     GoodsList,
+    Toast,
   },
   created() {
     // 1.保存传入的商品iid
@@ -238,7 +244,13 @@ export default {
       // 通过Vuex中自带的mapActions，将里面的方法映射到这里，这里就可以直接使用该方法了，
       // 不需要在通过diapatch()的方式来操作
       this.addCart(product).then((res) => {
-        console.log(res);
+        this.toastShow = true;
+        this.toastMessage = res;
+
+        setTimeout(() => {
+          this.toastShow = false;
+          this.toastMessage = "";
+        }, 2000);
       });
     },
   },
