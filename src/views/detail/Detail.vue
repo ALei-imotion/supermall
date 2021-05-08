@@ -46,6 +46,7 @@ import Scroll from "components/common/scroll/Scroll";
 import GoodsList from "components/content/goods/GoodsList";
 import { itemListenerMixin, backTopMixin } from "common/mixin";
 import { debounce } from "common/utils";
+import { mapActions } from "vuex";
 
 import {
   getDetail,
@@ -209,6 +210,8 @@ export default {
       // 3.是否显示回到顶部按钮
       this.listenIsShowBackTop(position);
     },
+
+    ...mapActions(["addCart"]),
     // 将商品添加到购物车
     addToCart() {
       // 1.获取购物车需要展示的信息
@@ -227,7 +230,16 @@ export default {
       // this.$store.commit("addCart", product);
 
       // 通过操作actions来间接操作mutations，从而修改state中的数据
-      this.$store.dispatch("addCart", product);
+      // this.$store.dispatch("addCart", product).then((res) => {
+      //   // 3.添加成功
+      //   console.log(res);
+      // });
+
+      // 通过Vuex中自带的mapActions，将里面的方法映射到这里，这里就可以直接使用该方法了，
+      // 不需要在通过diapatch()的方式来操作
+      this.addCart(product).then((res) => {
+        console.log(res);
+      });
     },
   },
 };
