@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 
 import FastClick from 'fastclick'
+import VueLazyLoad from 'vue-lazyload'
+
 import toastObj from "components/common/toast"
 
 Vue.config.productionTip = false
@@ -20,6 +22,11 @@ new Vue({
 
 // 解决移动端的300ms延迟
 FastClick.attach(document.body)
+
+// 使用懒加载插件
+Vue.use(VueLazyLoad, {
+  loading: require('./assets/img/common/placeholder.png')
+})
 
 // ES6 继承
 // class Animal {
