@@ -14,7 +14,7 @@ export default {
     };
   },
   methods: {
-    show(message, time) {
+    show(message="默认文字", time=2000) {
       this.isShow = true;
       this.message = message;
 
